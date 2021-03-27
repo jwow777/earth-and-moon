@@ -1,3 +1,5 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import './index.css';
 import * as THREE from "./js/three.module.js";
 import { OrbitControls } from "./js/OrbitControls.js";
@@ -47,8 +49,8 @@ const galaxy = new THREE.Mesh(new THREE.SphereGeometry(400, 64, 64), new THREE.M
 // Земля
 const earth = new ProtoPlanet(6.371, { 
   bumpScale: 0.01,
-  bumpMap: texture.load(earthMap),
-  map: texture.load(earthBumpMap),
+  bumpMap: texture.load(earthBumpMap),
+  map: texture.load(earthMap),
   shininess: 10,
   specular: new THREE.Color('grey'),
   specularMap: texture.load(earthSpecularMap),
@@ -65,8 +67,8 @@ const atmosphere = new ProtoPlanet(6.44, {
 // Луна
 const moon = new ProtoPlanet(1.7371, { 
   bumpScale: 0.02,
-  bumpMap: texture.load(moonMap),
-  map: texture.load(moonBumpMap),
+  bumpMap: texture.load(moonBumpMap),
+  map: texture.load(moonMap),
 }).generate();
 moon.position.set(100, 0, 0);
 moon.castShadow = true; //default is false
