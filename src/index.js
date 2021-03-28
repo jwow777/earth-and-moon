@@ -10,14 +10,15 @@ import earthBumpMap from './img/maps/elev_bump_8k.jpg';
 import earthSpecularMap from './img/maps/water_8k.png';
 import earthAtmosphereMap from './img/maps/clouds_8k.jpg';
 import moonMap from './img/maps/8k_moon.jpg';
-import moonBumpMap from './img/maps/elev_bump_8k.jpg';
+import moonBumpMap from './img/maps/8k_bump_moon.jpg';
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
+const degree = Math.PI / 180;
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 1000);
@@ -26,8 +27,9 @@ camera.position.set(0, 0, 30);
 // Свет
 const spotLight = new THREE.SpotLight(0xffffff);
 spotLight.position.set(0, 0, 400);
-spotLight.castShadow = true; // default false
-spotLight.shadow.focus = 0.15; // default
+spotLight.castShadow = true;
+spotLight.shadow.focus = 0.15;
+spotLight.shadowMapVisible = true;
 
 const light = new THREE.Light( 0xffffbb,  1 );
 light.position.set(0, 0, 400);
@@ -55,8 +57,8 @@ const earth = new ProtoPlanet(6.371, {
   specular: new THREE.Color('grey'),
   specularMap: texture.load(earthSpecularMap),
 }).generate();
-earth.castShadow = true; //default is false
-earth.receiveShadow = true; //default
+earth.castShadow = true;
+earth.receiveShadow = true;
 
 // Атмосфера Земли
 const atmosphere = new ProtoPlanet(6.44, { 
@@ -66,16 +68,15 @@ const atmosphere = new ProtoPlanet(6.44, {
 
 // Луна
 const moon = new ProtoPlanet(1.7371, { 
-  bumpScale: 0.02,
+  bumpScale: 0.03,
   bumpMap: texture.load(moonBumpMap),
   map: texture.load(moonMap),
 }).generate();
 moon.position.set(100, 0, 0);
-moon.castShadow = true; //default is false
-moon.receiveShadow = true; //default
+moon.castShadow = true;
+moon.receiveShadow = true;
 
 // Физика движения по орбите 
-const degree = Math.PI / 180;
 let theta = 90 * degree; // начальный угол
 const radius = moon.position.x;
 
